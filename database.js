@@ -27,7 +27,7 @@ if (row === undefined) {
             protocol TEXT, 
             httpversion TEXT, 
             status TEXT, 
-            referrer TEXT,
+            referer TEXT,
             useragent TEXT );
     `;
 // Execute SQL commands that we just wrote above.
