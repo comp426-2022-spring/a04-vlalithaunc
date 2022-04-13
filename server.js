@@ -11,7 +11,6 @@ app.use(express.static('.//frontend'))
 const log_db = require('./database.js')
 
 const md5 = require('md5')
-const { restart } = require('nodemon')
 
 const args = require('minimist')(process.argv.slice(2))
 
@@ -62,8 +61,8 @@ app.use((req, res, next) =>{
     }
     const stmt = log_db.prepare(`INSERT INTO accesslog (remoteaddr, remoteuser, time, method, url, protocol, httpversion, status, referrer, useragent
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
-    const info = stmt.run(String(log_db.remoteaddr), String(log_db.remoteuser), String(log_db.time), String(log_db.method), String(log_db.url),
-            String(log_db.protocol), String(log_db.httpversion), String(log_db.status), String(log_db.referrer),String(log_db.useragent))
+    const info = stmt.run(String(logdata.remoteaddr), String(logdata.remoteuser), String(logdata.time), String(logdata.method), String(logdata.url),
+            String(logdata.protocol), String(logdata.httpversion), String(logdata.status), String(logdata.referrer),String(logdata.useragent))
     next()
 })
 
