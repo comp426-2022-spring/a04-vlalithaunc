@@ -16,8 +16,8 @@ const { restart } = require('nodemon')
 const args = require('minimist')(process.argv.slice(2))
 
 // args["port"]
-// console.log(args)
-const port = args.port || process.env.PORT || 5000;
+console.log(args)
+const port = args.port || process.env.PORT || 5555;
 const server = app.listen(port, () => {
     console.log('App is running on %PORT%'.replace('%PORT%', port))
 })
@@ -67,11 +67,11 @@ app.use((req, res, next) =>{
     next()
 })
 
-if (args.debug || args.d) {
+if (args.debug) {
         app.get("/app/log/access", (req, res) => {
             try{
                 const stmt = log_db.prepare('SELECT * FROM accesslog').all()
-                restart.statust(200).json(stmt)
+                res.status(200).json(stmt)
             } catch(e){
                 app.get("/app/error", (req, res) => {
                     console.error("Error test successful.")
@@ -81,12 +81,12 @@ if (args.debug || args.d) {
         })
 }
 
-if (args.log || args.l) {
+if (args.log) {
     // Use morgan for logging to files
     // Create a write stream to append (flags: 'a') to a file
-    const WRITESTREAM = fs.createWriteStream('access.log', { flags: 'a' })
+    const accessLog = fs.createWriteStream('access.log', { flags: 'a' })
     // Set up the access logging middleware
-    app.use(morgan('combined', { stream: fs.access.log }))
+    app.use(morgan('combined', { stream: accessLog })) 
 }
 
 
