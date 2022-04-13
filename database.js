@@ -27,8 +27,8 @@ if (row === undefined) {
             protocol VARCHAR, 
             httpversion NUMERIC, 
             status INTEGER, 
-            referer VARCHAR,
-            useragent VARCHAR );
+            referer TEXT,
+            useragent VARCHAR);
     `
 // Execute SQL commands that we just wrote above.
     db.exec(sqlInit);

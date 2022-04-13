@@ -62,7 +62,7 @@ app.use((req, res, next) =>{
     const stmt = log_db.prepare(`INSERT INTO accesslog (remoteaddr, remoteuser, time, method, url, protocol, httpversion, status, referer, useragent)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
     const info = stmt.run(String(logdata.remoteaddr), String(logdata.remoteuser), String(logdata.time), String(logdata.method), String(logdata.url),
-            String(logdata.protocol), String(logdata.httpversion), String(logdata.status), String(logdata.referer),String(logdata.useragent))
+            String(logdata.protocol), String(logdata.httpversion), String(logdata.status), String(logdata.referer), String(logdata.useragent))
     next()
 })
 
@@ -70,12 +70,11 @@ if (args.debug) {
         app.get("/app/log/access", (req, res) => {
             try{
                 const stmt = log_db.prepare('SELECT * FROM accesslog').all()
-                res.status(200).json(stmt)
+                //res.status(200).json(stmt)
             } catch(e){
                 app.get("/app/error", (req, res) => {
                     console.error("Error test successful.")
                 })
-                console.error(e)
             }
         })
 }
