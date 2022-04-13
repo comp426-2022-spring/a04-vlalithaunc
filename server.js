@@ -69,6 +69,7 @@ app.use((req, res, next) =>{
 if (args.debug) {
         app.get("/app/log/access", (req, res) => {
             const stmt = log_db.prepare('SELECT * FROM accesslog').all()
+            console.log("\\[\\{.*(id).*\\}\\]")
                 //res.status(200).json(stmt)
             })
         // app.get("/app/error", (req, res) => {
