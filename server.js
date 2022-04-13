@@ -68,13 +68,16 @@ app.use((req, res, next) =>{
 
 if (args.debug) {
         app.get("/app/log/access", (req, res) => {
-            const stmt = log_db.prepare('SELECT * FROM accesslog').all()
-            console.log("\\[\\{.*(id).*\\}\\]")
-                //res.status(200).json(stmt)
+            try{
+                const stmt = log_db.prepare('SELECT * FROM accesslog').all()
+                console.log("\\[\\{.*(id).*\\}\\]")
+                res.status(200).json(stmt)
+            } catch(e){
+                app.get("/app/error", (req, res) => {
+                console.error("500 Internal Server Error")
             })
-        // app.get("/app/error", (req, res) => {
-        //     console.error("Error test successful.")
-        // }) 
+        }
+        })
 }
 
 if (args.log) {
