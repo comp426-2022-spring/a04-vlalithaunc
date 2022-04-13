@@ -68,15 +68,12 @@ app.use((req, res, next) =>{
 
 if (args.debug) {
         app.get("/app/log/access", (req, res) => {
-            try{
-                const stmt = log_db.prepare('SELECT * FROM accesslog').all()
+            const stmt = log_db.prepare('SELECT * FROM accesslog').all()
                 //res.status(200).json(stmt)
-            } catch(e){
-                app.get("/app/error", (req, res) => {
-                    console.error("Error test successful.")
-                })
-            }
-        })
+            })
+        // app.get("/app/error", (req, res) => {
+        //     console.error("Error test successful.")
+        // }) 
 }
 
 if (args.log) {
