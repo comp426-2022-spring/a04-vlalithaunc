@@ -20,16 +20,17 @@ if (row === undefined) {
     const sqlInit = `
         CREATE TABLE accesslog ( 
             id INTEGER PRIMARY KEY,
-            remoteaddr VARCHAR, 
-            remoteuser VARCHAR, 
-            time VARCHAR, 
-            method VARCHAR, 
-            url VARCHAR, 
-            protocol VARCHAR, 
-            httpversion NUMERIC, 
+            remoteaddr TEXT, 
+            remoteuser TEXT, 
+            time INTEGER, 
+            method TEXT, 
+            url TEXT, 
+            protocol TEXT, 
+            httpversion TEXT, 
+            secure TEXT,
             status INTEGER, 
             referer TEXT,
-            useragent VARCHAR);
+            useragent TEXT);
     `
 // Execute SQL commands that we just wrote above.
     db.exec(sqlInit);
