@@ -21,31 +21,14 @@ const server = app.listen(port, () => {
     console.log('App is running on %PORT%'.replace('%PORT%', port))
 })
 
-app.get("/app", (req, res) =>{
-    res.json({"message:": "API works! (200)"});
-    res.status(200)
-})
+if (args.log == true) {
+    // Use morgan for logging to files
+    // Create a write stream to append (flags: 'a') to a file
+    const accessLog = fs.createWriteStream('access.log', { flags: 'a' })
+    // Set up the access logging middleware
+    app.use(morgan('combined', { stream: accessLog })) 
+}
 
-
-const help = (`
-server.js [options]
-
---port	Set the port number for the server to listen on. Must be an integer
-            between 1 and 65535.
-
---debug	If set to true, creates endlpoints /app/log/access/ which returns
-            a JSON access log from the database and /app/error which throws 
-            an error with the message "Error test successful." Defaults to 
-            false.
-
---log		If set to false, no log files are written. Defaults to true.
-            Logs are always written to database.
-
---help	Return this message and exit.
-`)
-// If --help or -h, echo help text to STDOUT and exit
-
-//middleware for querying to access log database
 app.use((req, res, next) =>{
     let logdata = {
         remoteaddr: req.ip,
@@ -66,28 +49,39 @@ app.use((req, res, next) =>{
     next()
 })
 
-if (args.debug) {
+const help = (`
+server.js [options]
+
+--port	Set the port number for the server to listen on. Must be an integer
+            between 1 and 65535.
+
+--debug	If set to true, creates endlpoints /app/log/access/ which returns
+            a JSON access log from the database and /app/error which throws 
+            an error with the message "Error test successful." Defaults to 
+            false.
+
+--log		If set to false, no log files are written. Defaults to true.
+            Logs are always written to database.
+
+--help	Return this message and exit.
+`)
+// If --help or -h, echo help text to STDOUT and exit
+
+//middleware for querying to access log database
+
+if (args.debug == true) {
         app.get("/app/log/access", (req, res) => {
             try{
                 const stmt = log_db.prepare('SELECT * FROM accesslog').all()
-                console.log("\\[\\{.*(id).*\\}\\]")
                 res.status(200).json(stmt)
             } catch(e){
-                app.get("/app/error", (req, res) => {
-                console.error("500 Internal Server Error")
-            })
+                console.error(e)
         }
         })
+        app.get("/app/error", (req, res) => {
+            console.log("error")
+        })
 }
-
-if (args.log) {
-    // Use morgan for logging to files
-    // Create a write stream to append (flags: 'a') to a file
-    const accessLog = fs.createWriteStream('access.log', { flags: 'a' })
-    // Set up the access logging middleware
-    app.use(morgan('combined', { stream: accessLog })) 
-}
-
 
 if (args.help || args.h) {
     console.log(help)
