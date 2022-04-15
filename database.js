@@ -24,10 +24,9 @@ if (row === undefined) {
             remoteuser TEXT, 
             time INTEGER, 
             method TEXT, 
-            url TEXT, 
+            url TEXT,
             protocol TEXT, 
             httpversion TEXT, 
-            secure TEXT,
             status INTEGER, 
             referer TEXT,
             useragent TEXT);`

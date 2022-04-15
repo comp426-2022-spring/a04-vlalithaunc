@@ -9,7 +9,6 @@ const log_db = require('./database.js')
 //allow express to read urlencoded and json
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
-app.use(express.static('.//frontend'))
 
 const md5 = require('md5')
 //const res = require('express/lib/response')
@@ -65,15 +64,14 @@ app.use((req, res, next) =>{
         url: req.url,
         protocol: req.protocol,
         httpversion: req.httpVersion,
-        secure: req.secure,
         status: res.statusCode,
         referer: req.headers['referer'],
         useragent: req.headers['user-agent']
     }
-    const stmt = log_db.prepare(`INSERT INTO accesslog (remoteaddr, remoteuser, time, method, url, protocol, httpversion, secure, status, referer, useragent)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`)
-    const info = stmt.run(String(logdata.remoteaddr), String(logdata.remoteuser), String(logdata.time), String(logdata.method), String(logdata.url),
-            String(logdata.protocol), String(logdata.httpversion), String(logdata.secure), String(logdata.status), String(logdata.referer), String(logdata.useragent))
+    const stmt = log_db.prepare(`INSERT INTO accesslog (remoteaddr, remoteuser, time, method, url, protocol, httpversion, status, referer, useragent)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`)
+    const info = stmt.run(logdata.remoteaddr, logdata.remoteuser, logdata.time, logdata.method, logdata.url,
+           logdata.protocol, logdata.httpversion, logdata.status, logdata.referer, logdata.useragent)
     next()
 })
 
