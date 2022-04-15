@@ -15,7 +15,7 @@ const md5 = require('md5')
 
 //require minimist module and 
 const args = require('minimist')(process.argv.slice(2))
-args['port', 'debug', 'log', 'debug']
+args['port', 'debug', 'log', 'help']
 const port = args.port || process.env.PORT || 5555;
 
 
