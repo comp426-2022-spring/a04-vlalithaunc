@@ -4,7 +4,7 @@ const app = express()
 const fs = require('fs')
 
 //database
-const log_db = require('./database.js')
+const db = require('./database.js')
 
 //allow express to read urlencoded and json
 app.use(express.urlencoded({extended: true}))
@@ -68,7 +68,7 @@ app.use((req, res, next) =>{
         referer: req.headers['referer'],
         useragent: req.headers['user-agent']
     }
-    const stmt = log_db.prepare(`INSERT INTO accesslog (remoteaddr, remoteuser, time, method, url, protocol, httpversion, status, referer, useragent)
+    const stmt = db.prepare(`INSERT INTO accesslog (remoteaddr, remoteuser, time, method, url, protocol, httpversion, status, referer, useragent)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`)
     const info = stmt.run(logdata.remoteaddr, logdata.remoteuser, logdata.time, logdata.method, logdata.url,
            logdata.protocol, logdata.httpversion, logdata.status, logdata.referer, logdata.useragent)
@@ -163,9 +163,9 @@ app.get('/app/flip/call/:guess(heads|tails)/', (req, res) =>{
 if (args.debug == true) {
     app.get("/app/log/access", (req, res) => {
         try{
-            const stmt = log_db.prepare('SELECT * FROM accesslog').all()
+            const stmt = db.prepare('SELECT * FROM accesslog').all()
             res.status(200).json(stmt)
-        } catch(e){
+        } catch{
             console.error(e)
         }
     });
