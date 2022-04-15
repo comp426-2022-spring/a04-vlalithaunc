@@ -1,0 +1,27 @@
+{
+  "name": "a04-vlalithaunc",
+  "version": "1.0.0",
+  "description": "access logs",
+  "main": "index.js",
+  "scripts": {
+    "test": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://vlalithaunc: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@github.com/comp426-2022-spring/a04-vlalithaunc.git"
+  },
+  "author": "Lalitha Vadrevu",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/comp426-2022-spring/a04-vlalithaunc/issues"
+  },
+  "homepage": "https://github.com/comp426-2022-spring/a04-vlalithaunc#readme",
+  "dependencies": {
+    "better-sqlite3": "^7.5.1",
+    "express": "^4.17.3",
+    "fs": "^0.0.1-security",
+    "minimist": "^1.2.6",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.15"
+  }
+}
